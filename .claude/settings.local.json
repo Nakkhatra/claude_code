@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git checkout -b*)",
+      "Bash(git pull*)",
+      "Bash(git fetch*)",
+      "Bash(git stash*)",
+      "Bash(git rebase*)",
+      "Bash(gh pr *)",
+      "Bash(gh run *)",
+      "Bash(npm test*)",
+      "Bash(npm run lint*)",
+      "Bash(npm run format*)",
+      "Bash(npx prettier*)",
+      "Bash(npx eslint*)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm -rf*)",
+      "Bash(*--dangerously-skip-permissions*)",
+      "Bash(git push*origin main*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash(git checkout -b*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[auto-sync] Pulling latest from origin/main...' && git pull origin main --rebase --quiet 2>/dev/null || echo '[auto-sync] No remote to pull from or rebase conflict - continuing'"
+          }
+        ]
+      }
+    ]
+  }
+}
